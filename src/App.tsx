@@ -1,13 +1,15 @@
-import { Suspense } from 'preact/compat'
-import UserCount from 'components/UserCount'
+import Description from 'components/Description'
+import Minting from 'components/Minting'
+import Root from 'components/Root'
+import WalletProvider from 'components/WalletProvider'
 
 export default function () {
   return (
-    <div className="container mx-auto max-w-prose p-10 prose">
-      <h1>SealHub | memorabilia token</h1>
-      <Suspense fallback={<p>Loading...</p>}>
-        <UserCount />
-      </Suspense>
-    </div>
+    <WalletProvider>
+      <Root>
+        <Description />
+        <Minting />
+      </Root>
+    </WalletProvider>
   )
 }

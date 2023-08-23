@@ -24,6 +24,9 @@ jobs:
         run: yarn
         shell: bash
       - name: Build code
+        env:
+          VITE_ALCHEMY_KEY: ${{ secrets.VITE_ALCHEMY_KEY }}
+          VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.VITE_WALLETCONNECT_PROJECT_ID }}
         run: yarn build
         shell: bash
       - name: Setup Pages
