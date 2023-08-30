@@ -2884,6 +2884,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@big-whale-labs/seal-hub-memorabilia-token-contracts@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@big-whale-labs/seal-hub-memorabilia-token-contracts@npm:0.0.3"
+  dependencies:
+    "@big-whale-labs/seal-hub-kit": ^0.0.36
+  checksum: 6d91fb06850440b09ab56b597614bd2c53d4853c7231a27773f91f21ab8ae5caa40462e9d7c2d426a31baa799ee87f24d1e2e9fd4e0f4e8b1a64e5eee38ab433
+  languageName: node
+  linkType: hard
+
 "@big-whale-labs/versioned-contract@npm:^1.0.2":
   version: 1.0.2
   resolution: "@big-whale-labs/versioned-contract@npm:1.0.2"
@@ -2927,6 +2936,15 @@ __metadata:
   version: 0.8.0
   resolution: "@emotion/hash@npm:0.8.0"
   checksum: 4b35d88a97e67275c1d990c96d3b0450451d089d1508619488fc0acb882cb1ac91e93246d471346ebd1b5402215941ef4162efe5b51534859b39d8b3a0e3ffaa
+  languageName: node
+  linkType: hard
+
+"@esbuild-plugins/node-globals-polyfill@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "@esbuild-plugins/node-globals-polyfill@npm:0.2.3"
+  peerDependencies:
+    esbuild: "*"
+  checksum: f83eeaa382680b26a3b1cf6c396450332c41d2dc0f9fd935d3f4bacf5412bef7383d2aeb4246a858781435b7c005a570dadc81051f8a038f1ef2111f17d3d8b0
   languageName: node
   linkType: hard
 
@@ -16990,6 +17008,8 @@ __metadata:
   resolution: "seal-hub-memorabilia-token@workspace:."
   dependencies:
     "@big-whale-labs/seal-hub-kit": ^0.0.36
+    "@big-whale-labs/seal-hub-memorabilia-token-contracts": ^0.0.3
+    "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/providers": ^5.7.2
     "@preact/preset-vite": ^2.5.0
     "@rainbow-me/rainbowkit": ^1.0.9

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@big-whale-labs/seal-hub-kit": "^0.0.36",
+    "@big-whale-labs/seal-hub-memorabilia-token-contracts": "^0.0.3",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@ethersproject/providers": "^5.7.2",
     "@rainbow-me/rainbowkit": "^1.0.9",
     "envalid": "^7.3.1",
