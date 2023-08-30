@@ -85,7 +85,7 @@ export default function () {
         setStep(Step.error)
         return
       }
-      const balance = await tokenContract.balanceOf(address)
+      const balance = await tokenContract.balanceOf(address, 0)
       if (balance.eq(0)) {
         setStep(Step.zk)
       } else {

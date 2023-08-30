@@ -2884,12 +2884,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@big-whale-labs/seal-hub-memorabilia-token-contracts@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "@big-whale-labs/seal-hub-memorabilia-token-contracts@npm:0.0.3"
+"@big-whale-labs/seal-hub-memorabilia-token-contracts@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@big-whale-labs/seal-hub-memorabilia-token-contracts@npm:0.0.4"
   dependencies:
     "@big-whale-labs/seal-hub-kit": ^0.0.36
-  checksum: 6d91fb06850440b09ab56b597614bd2c53d4853c7231a27773f91f21ab8ae5caa40462e9d7c2d426a31baa799ee87f24d1e2e9fd4e0f4e8b1a64e5eee38ab433
+  checksum: 6118fb359c9c18bb9ec3fbdf16ebef43bc54b7a340b63880b337792c8eb5426c3a0d883d76a8d72df65fb904cfde3c118a760aa2cdf09b18abaea62fb08c4586
   languageName: node
   linkType: hard
 
@@ -17008,7 +17008,7 @@ __metadata:
   resolution: "seal-hub-memorabilia-token@workspace:."
   dependencies:
     "@big-whale-labs/seal-hub-kit": ^0.0.36
-    "@big-whale-labs/seal-hub-memorabilia-token-contracts": ^0.0.3
+    "@big-whale-labs/seal-hub-memorabilia-token-contracts": ^0.0.4
     "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/providers": ^5.7.2
     "@preact/preset-vite": ^2.5.0
