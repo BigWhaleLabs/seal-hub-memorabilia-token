@@ -1,13 +1,20 @@
-import { AlchemyProvider } from '@ethersproject/providers'
+import {
+  AlchemyProvider,
+  JsonRpcSigner,
+  Web3Provider,
+} from '@ethersproject/providers'
 import {
   getCommitmentFromSignature,
   getMessage,
   getSealHubValidatorInputs,
   isCommitmentRegistered,
 } from '@big-whale-labs/seal-hub-kit'
-import { useAccount, useSignMessage } from 'wagmi'
+import { useAccount, useSignMessage, useWalletClient } from 'wagmi'
 import { useEffect, useState } from 'preact/hooks'
+import Proof from 'models/Proof'
+import ProofResult from 'models/ProofResult'
 import env from 'helpers/env'
+import makeTransaction from 'helpers/makeTransaction'
 import tokenContract from 'helpers/tokenContract'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,6 +34,8 @@ enum Step {
 
 export default function () {
   const { address } = useAccount()
+  const { data: walletClient } = useWalletClient()
+  const [signer, setSigner] = useState<JsonRpcSigner | null>(null)
   const [globalLoading, setGlobalLoading] = useState(false)
   const [step, setStep] = useState<Step>(Step.empty)
   const {
@@ -37,11 +46,20 @@ export default function () {
   const [commitmentRegistered, setCommitmentRegistered] = useState<
     boolean | null
   >(null)
+  const [proof, setProof] = useState<Proof | null>(null)
+  const [txHash, setTxHash] = useState<string | null>(null)
   // Account hooks
   useEffect(() => {
     // If address changes, reset everything
     setStep(Step.empty)
   }, [address])
+  useEffect(() => {
+    if (!walletClient) {
+      return
+    }
+    const provider = new Web3Provider(walletClient.transport, 'any')
+    setSigner(provider.getSigner())
+  }, [walletClient])
   // Steps
   useEffect(() => {
     async function checkCommitment() {
@@ -86,46 +104,12 @@ export default function () {
           getMessage(),
           new AlchemyProvider('goerli', env.VITE_ALCHEMY_KEY)
         )
-        const proof = await snarkjs.groth16.fullProve(
+        const proof = (await snarkjs.groth16.fullProve(
           inputs,
           '/NullifierCreator.wasm',
           '/NullifierCreator_final.zkey'
-        )
-        // Proof:
-        //   {
-        //     "proof": {
-        //         "pi_a": [
-        //             "13541247944574745837868314136253945230129375627573736642345051466959842601061",
-        //             "3588149924236996797503708002256605763337276068528050848888072819304817687339",
-        //             "1"
-        //         ],
-        //         "pi_b": [
-        //             [
-        //                 "19883355938065097053964661316346448763027368280670040341962896212349060368271",
-        //                 "10713585228785001441206714591981378860450768221664841618412581272805710395175"
-        //             ],
-        //             [
-        //                 "11972044746202682585064583620652507442622231786501473104038139224507458887252",
-        //                 "5679184047081825787551941111220465546469612120177194289047377528490743216712"
-        //             ],
-        //             [
-        //                 "1",
-        //                 "0"
-        //             ]
-        //         ],
-        //         "pi_c": [
-        //             "4537811364823272105530426961838425872763410312483499906183411799653562375712",
-        //             "11338596102929199422174554879682317856625804503776499592452258244335560283508",
-        //             "1"
-        //         ],
-        //         "protocol": "groth16",
-        //         "curve": "bn128"
-        //     },
-        //     "publicSignals": [
-        //         "1606557549283573144709933128830539461483138555532643293876135124027209928089",
-        //         "16830880825080895546328487425414699910730890478699539177647338495355167294806"
-        //     ]
-        // }
+        )) as ProofResult
+        setProof(makeTransaction(proof))
         setStep(Step.minting)
       } catch (error) {
         console.error(error)
@@ -134,7 +118,21 @@ export default function () {
     }
 
     async function mint() {
-      // TODO: mint
+      if (!proof || !signer) {
+        setStep(Step.error)
+        return
+      }
+      try {
+        const tx = await tokenContract
+          .connect(signer)
+          .mint(proof._pA, proof._pB, proof._pC, proof._pubSignals)
+        await tx.wait()
+        setTxHash(tx.hash)
+        setStep(Step.minted)
+      } catch (error) {
+        console.error(error)
+        setStep(Step.error)
+      }
     }
 
     switch (step) {
@@ -181,7 +179,7 @@ export default function () {
       case Step.error:
         setGlobalLoading(false)
         break
-      case Step.minted: // TODO: show UI for this
+      case Step.minted:
         setGlobalLoading(false)
         break
     }
@@ -193,6 +191,8 @@ export default function () {
     signMessage,
     commitmentRegistered,
     address,
+    proof,
+    signer,
   ])
 
   return (
@@ -207,7 +207,11 @@ export default function () {
       </p>
       <button
         class="btn"
-        disabled={globalLoading}
+        disabled={
+          globalLoading ||
+          step === Step.minted ||
+          step === Step.commitmentNotRegistered
+        }
         onClick={() => setStep(Step.awaitingSignature)}
       >
         {step || 'Mint the token!'}
@@ -231,6 +235,23 @@ export default function () {
         <p>
           Oopsie! We've encountered an error 😱 Check the dev console to learn
           more!
+        </p>
+      )}
+      {step === Step.minted && (
+        <p>
+          Congratulations! You've minted the token!
+          {txHash && (
+            <>
+              {' '}
+              <a
+                href={`https://goerli.etherscan.io/tx/${txHash}`}
+                target="_blank"
+              >
+                View the transaction on Etherscan
+              </a>
+              .
+            </>
+          )}
         </p>
       )}
     </>
