@@ -19,14 +19,6 @@ export default defineConfig({
           gzipSize: true,
           brotliSize: true,
         }),
-        nodePolyfills(),
-        inject({
-          process: 'process',
-          Buffer: ['buffer', 'Buffer'],
-          global: 'global',
-          stream: 'stream',
-          _stream_duplex: 'duplex',
-        }),
         removeConsole(),
       ] as unknown[] as Plugin[],
     },
@@ -40,12 +32,6 @@ export default defineConfig({
       define: {
         global: 'globalThis',
       },
-      plugins: [
-        GlobalsPolyfills({
-          buffer: true,
-        }),
-        NodeModulesPolyfillPlugin(),
-      ] as any[],
     },
   },
   esbuild: {
