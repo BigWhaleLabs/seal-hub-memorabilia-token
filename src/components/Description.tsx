@@ -12,7 +12,8 @@ export default function () {
         <a href="https://blog.bigwhalelabs.com" target="_blank">
           the relevant tutorial
         </a>
-        . You can find the code for this website{' '}
+        . Keep in mind that this token is on Goerli, and some mobile wallets
+        don't support it. You can find the code for this website{' '}
         <a
           href="https://github.com/BigWhaleLabs/seal-hub-memorabilia-token"
           target="_blank"
