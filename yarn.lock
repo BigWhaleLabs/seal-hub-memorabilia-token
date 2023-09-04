@@ -2939,15 +2939,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@esbuild-plugins/node-globals-polyfill@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "@esbuild-plugins/node-globals-polyfill@npm:0.2.3"
-  peerDependencies:
-    esbuild: "*"
-  checksum: f83eeaa382680b26a3b1cf6c396450332c41d2dc0f9fd935d3f4bacf5412bef7383d2aeb4246a858781435b7c005a570dadc81051f8a038f1ef2111f17d3d8b0
-  languageName: node
-  linkType: hard
-
 "@esbuild/android-arm64@npm:0.18.17":
   version: 0.18.17
   resolution: "@esbuild/android-arm64@npm:0.18.17"
@@ -17009,7 +17000,6 @@ __metadata:
   dependencies:
     "@big-whale-labs/seal-hub-kit": ^0.0.36
     "@big-whale-labs/seal-hub-memorabilia-token-contracts": ^0.0.4
-    "@esbuild-plugins/node-globals-polyfill": ^0.2.3
     "@ethersproject/providers": ^5.7.2
     "@preact/preset-vite": ^2.5.0
     "@rainbow-me/rainbowkit": ^1.0.9
